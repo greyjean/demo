@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load app %}
+<div class="wrapper row-offcanvas row-offcanvas-left">
+  <!-- Left side column. contains the logo and sidebar -->
+  {% include 'snippets/sidebar.html' %}
+
+  <!-- Right side column. Contains the navbar and content of the page -->
+  <aside class="right-side">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Dashboard
+        <!--
+                <small>Control panel</small>
+                -->
+      </h1>
+      <ol class="breadcrumb">
+        <!--
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                -->
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="col-lg-12">
+      <div class="row" style='padding-top: 30px;'>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>
+                2,800,000
+              </h3>
+              <p>
+              Number of Particpants
+              </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              <!--
+                  More info <i class="fa fa-arrow-circle-right"></i>
+                  --->
+            </a>
+          </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3>
+                19<sup style="font-size: 20px">%</sup>
+              </h3>
+              <p>
+              Redemption Rate
+              </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              <!--
+                  More info <i class="fa fa-arrow-circle-right"></i>
+                  --->
+            </a>
+          </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>
+                $574,342
+              </h3>
+              <p>
+              Sales from Redepemtions
+              </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              <!--
+                  More info <i class="fa fa-arrow-circle-right"></i>
+                  --->
+            </a>
+          </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>
+                $142.68
+              </h3>
+              <p>
+              Average Basket Size
+              </p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              <!--
+                  More info <i class="fa fa-arrow-circle-right"></i>
+                  --->
+            </a>
+          </div>
+        </div><!-- ./col -->
+      </div><!-- /.row -->
+
+      <!-- Map box -->
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- tools box -->
+          <ul class="nav nav-tabs pull-right">
+            <li><a href="">7 Day</a></li>
+            <li><a href="">30 Days</a></li>
+            <li><a href="">60 Days</a></li>
+            <li><a href="">90 Days</a></li>
+          </ul>
+
+          <i class="fa fa-comments-o"></i>
+          <h3 class="box-title">
+            Campaigns
+          </h3>
+        </div>
+        <div class="box-body no-padding">
+          <div class="table-responsive">
+            <!-- .table - Uses sparkline charts-->
+            <table class="table table-striped">
+              <tr>
+                <th>All Campaigns</th>
+                <th>Number of Participants</th>
+                <th>Offer Value</th>
+                <th>Redemptions</th>
+                <th>Total Sales From Redemptions</th>
+                <th>Average Basket Size</th>
+              </tr>
+                {% for campaign in request.user.company.campaigns %}
+              <tr>
+                <td><a href="">{{ campaign.name.0 }}</a></td>
+                <td><a href=''>{{ campaign.fingerprints.0 }}</a> (15,000)</td>
+                <td><a href=''>{{ campaign.offers.0 }}</a> $15</td>
+                <td><div data-following="40,3,4,8,10" id="sparkline-1"></div></td>
+                <td>$25,430</td>
+                <td>$86.45</td>
+              </tr>
+                {% endfor %}
+            </table><!-- /.table -->
+          </div>
+        </div><!-- /.box-body-->
+        <div class="box-footer">
+          <!--
+                            <button class="btn btn-info"><i class="fa fa-download"></i> Generate PDF</button>
+                            <button class="btn btn-warning"><i class="fa fa-bug"></i> Report Bug</button>
+                            -->
+        </div>
+      </div>
+    </section><!-- right col -->
+
+    <section class="col-lg-12">
+      <!-- Main row -->
+      <div class="box box-primary">
+        <!-- Left col -->
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="nav-tabs-custom">
+          <!-- Tabs within a box -->
+          <ul class="nav nav-tabs pull-right">
+            <li><a href="#revenue-chart" data-toggle="tab">Past 2 years</a></li>
+            <li class="pull-left header"><i class="fa fa-inbox"></i> Total Sales &amp; Redemption Performance</li>
+          </ul>
+          <div class="tab-content no-padding">
+            <!-- Morris chart - Sales -->
+            <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
+          </div>
+        </div><!-- /.nav-tabs-custom -->
+
+        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+      </div><!-- /.row (main row) -->
+
+    </section><!-- /.content -->
+    <section class='col-lg-12'>
+      <div class="box box-solid bg-light-blue-gradient">
+        <div class="box-header">
+          <!-- tools box -->
+          <div class="pull-right box-tools">
+            <button class="btn btn-primary btn-sm daterange pull-right" data-toggle="tooltip" title="Date range"><i class="fa fa-calendar"></i></button>
+            <button class="btn btn-primary btn-sm pull-right" data-widget='collapse' data-toggle="tooltip" title="Collapse" style="margin-right: 5px;"><i class="fa fa-minus"></i></button>
+          </div><!-- /. tools -->
+
+          <i class="fa fa-map-marker"></i>
+          <h3 class="box-title">
+            Heatmap
+          </h3>
+        </div>
+        <div class="box-body">
+          <div id="world-map" style="height: 250px;"></div>
+        </div><!-- /.box-body-->
+        <div class="box-footer no-border">
+          <div class="row">
+            <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+              <div id="sparkline-1"></div>
+              <div class="knob-label">Visitors</div>
+            </div><!-- ./col -->
+            <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+              <div id="sparkline-2"></div>
+              <div class="knob-label">Online</div>
+            </div><!-- ./col -->
+            <div class="col-xs-4 text-center">
+              <div id="sparkline-3"></div>
+              <div class="knob-label">Exists</div>
+            </div><!-- ./col -->
+          </div><!-- /.row -->
+        </div>
+      </div>
+    </section>
+  </aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+<!-- Morris.js charts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="{{ STATIC_URL }}js/plugins/morris/morris.min.js" type="text/javascript"></script>
+<script type='text/javascript'>
+    $(function() {
+      $("[data-following]").each(function() {
+        var myvalues = $(this).data("following").toString().split(",");
+        $(this).sparkline(myvalues, {
+            type: 'bar',
+            barColor: '#00a65a',
+            negBarColor: "#f56954",
+            height: '20px'
+        });
+      });
+
+      var area = new Morris.Area({
+        element: 'revenue-chart',
+        resize: true,
+        data: [
+            {y: '2011 Q1', item1: 2666, item2: 2666},
+            {y: '2011 Q2', item1: 2778, item2: 2294},
+            {y: '2011 Q3', item1: 4912, item2: 1969},
+            {y: '2011 Q4', item1: 3767, item2: 3597},
+            {y: '2012 Q1', item1: 6810, item2: 1914},
+            {y: '2012 Q2', item1: 5670, item2: 4293},
+            {y: '2012 Q3', item1: 4820, item2: 3795},
+            {y: '2012 Q4', item1: 15073, item2: 5967},
+            {y: '2013 Q1', item1: 10687, item2: 4460},
+            {y: '2013 Q2', item1: 8432, item2: 5713}
+        ],
+        xkey: 'y',
+        ykeys: ['item1', 'item2'],
+        labels: ['Total Sales', 'Redemptions'],
+        lineColors: ['#a0d0e0', '#3c8dbc'],
+        hideHover: 'auto'
+    });
+
+      $("#sendURL").click(function() {
+          var url = $(".url-shortener").val();
+          $.post("/generate/url", {url:url,csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()}, function(data) {
+            $(".url-shortener").val("");
+            $("h1#code").html(data.url)
+            $("p.hidden").removeClass("hidden");
+          });
+      });
+
+      var visitorsData = {
+        "US": 398, //USA
+        "SA": 400, //Saudi Arabia
+        "CA": 1000, //Canada
+        "DE": 500, //Germany
+        "FR": 760, //France
+        "CN": 300, //China
+        "AU": 700, //Australia
+        "BR": 600, //Brazil
+        "IN": 800, //India
+        "GB": 320, //Great Britain
+        "RU": 3000 //Russia
+    };
+
+      $('#world-map').vectorMap({
+        map: 'world_mill_en',
+        backgroundColor: "transparent",
+        regionStyle: {
+            initial: {
+                fill: '#e4e4e4',
+                "fill-opacity": 1,
+                stroke: 'none',
+                "stroke-width": 0,
+                "stroke-opacity": 1
+            }
+        },
+        series: {
+            regions: [{
+                    values: visitorsData,
+                    scale: ["#92c1dc", "#ebf4f9"],
+                    normalizeFunction: 'polynomial'
+                }]
+        },
+        onRegionLabelShow: function(e, el, code) {
+            if (typeof visitorsData[code] != "undefined")
+                el.html(el.html() + ': ' + visitorsData[code] + ' new visitors');
+        }
+    });
+
+    });
+</script>
+{% endblock %}

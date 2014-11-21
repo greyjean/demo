@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load app %}
+<div class="wrapper row-offcanvas row-offcanvas-left">
+  <!-- Left side column. contains the logo and sidebar -->
+  {% include 'snippets/sidebar.html' %}
+
+  <!-- Right side column. Contains the navbar and content of the page -->
+  <aside class="right-side">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Offers
+      </h1>
+      <ol class="breadcrumb">
+        <!--
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                -->
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="col-lg-12">
+      <!-- Map box -->
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- tools box -->
+          <ul class="nav nav-tabs pull-right">
+            <li><a href="">All Offers</a></li>
+          </ul>
+
+          <i class="fa fa-comments-o"></i>
+          <h3 class="box-title">
+            Offers
+          </h3>
+        </div>
+        <div class="box-body no-padding">
+          <div class="table-responsive">
+            <!-- .table - Uses sparkline charts-->
+            <table class="table table-striped">
+              <tr>
+                <th>Offer Name</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Type</th>
+                <th>%/$ Off</th>
+                <th>Frequency</th>
+                <th>Qualifier</th>
+                <th>Value</th>
+              </tr>
+              {% for offer in request.user.company.offers %}
+              <tr>
+                <td><a href="">{{ offer.name.0 }}</a></td>
+                <td></td>
+                <td>Dairy</td>
+                <td>Kraft</td>
+                <td>Cheese</td>
+                <td>50%</td>
+                <td>N/A</td>
+                <td>Purchased Before</td>
+                <td>$4</td>
+              </tr>
+              {% endfor %}
+            </table><!-- /.table -->
+          </div>
+        </div><!-- /.box-body-->
+        <div class="box-footer">
+          <!--
+                            <button class="btn btn-info"><i class="fa fa-download"></i> Generate PDF</button>
+                            <button class="btn btn-warning"><i class="fa fa-bug"></i> Report Bug</button>
+                            -->
+        </div>
+      </div>
+    </section><!-- right col -->
+  </aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+<!-- Morris.js charts -->
+{% endblock %}

@@ -1,0 +1,32 @@
+@import "compass/css3";
+
+div.home-box {
+  width: 600px;
+  margin: 60px auto;
+  padding: 40px;
+  background: #F0F0F0;
+  @include box-shadow(#ccc 0 0 3px);
+}
+
+div.small-home-box {
+  width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #F0F0F0;
+  @include box-shadow(#ccc 0 0 3px);
+  font-size: 18px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.gift-card, .coupon-box {
+  display: none;
+}
+
+.skin-blue .logo {
+  background: #25aae1;
+}
+
+.skin-blue .navbar {
+  background: #25aae1;
+}

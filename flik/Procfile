@@ -1,0 +1,4 @@
+web: gunicorn flik.wsgi;
+worker: python worker.py;
+python manage.py collectstatic --dry-run --noinput;
+python manage.py migrate app;

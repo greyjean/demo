@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load app %}
+<div class="wrapper row-offcanvas row-offcanvas-left">
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="left-side sidebar-offcanvas">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar user panel -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="{{ user.image_url }}" class="img-circle" alt="User Image" />
+                </div>
+                <div class="pull-left info">
+                    <p>Hello, {{ user.name }}</p>
+
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <li class="active">
+                    <a href="/">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <!--
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <span>Leaderboard</span>
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/charts/morris.html"><i class="fa fa-angle-double-right"></i> Morris</a></li>
+                        <li><a href="pages/charts/flot.html"><i class="fa fa-angle-double-right"></i> Flot</a></li>
+                        <li><a href="pages/charts/inline.html"><i class="fa fa-angle-double-right"></i> Inline charts</a></li>
+                    </ul>
+                </li>
+                -->
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Right side column. Contains the navbar and content of the page -->
+    <aside class="right-side">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Dashboard
+                <small>Control panel</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <!-- Small boxes (Stat box) -->
+
+          <!-- Main row -->
+          <div class="row">
+            <!-- Left col -->
+            <!-- right col (We are only adding the ID to make the widgets sortable)-->
+            <section class="col-lg-12">
+              <!-- Map box -->
+              <div class="box box-primary">
+                <div class="box-header">
+                  <!-- tools box -->
+                  <i class="fa fa-comments-o"></i>
+                  <h3 class="box-title">
+                    Your Links
+                  </h3>
+                </div>
+                <div class="box-body no-padding">
+                  <div class="table-responsive">
+                    <!-- .table - Uses sparkline charts-->
+                    <table class="table table-striped">
+                      <tr>
+                        <th>Link URL</th>
+                        <th>Link Total Clicks</th>
+                        <th>Link Referrers</th>
+                      </tr>
+                      {% for link in l_user.urls.all %}
+                      <tr>
+                        <td><a href="{{ link.url }}">{{ link.url }}</a> ({{ link.bitly_link }})</td>
+                        <td>{{ link.total_clicks }}</td>
+                        <td>{{ link.referring_links|safe }}</td>
+                      </tr>
+                      {% endfor %}
+                    </table><!-- /.table -->
+                  </div>
+                </div><!-- /.box-body-->
+                <div class="box-footer">
+                  <!--
+                            <button class="btn btn-info"><i class="fa fa-download"></i> Generate PDF</button>
+                            <button class="btn btn-warning"><i class="fa fa-bug"></i> Report Bug</button>
+                            -->
+                </div>
+              </div>
+            </section><!-- right col -->
+          </div><!-- /.row (main row) -->
+
+        </section><!-- /.content -->
+    </aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+<!-- Morris.js charts -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="{{ STATIC_URL }}js/plugins/morris/morris.min.js" type="text/javascript"></script>
+<script type='text/javascript'>
+    $(function() {
+      $("[data-following]").each(function() {
+        var myvalues = $(this).data("following").split(",");
+        $(this).sparkline(myvalues, {
+            type: 'bar',
+            barColor: '#00a65a',
+            negBarColor: "#f56954",
+            height: '20px'
+        });
+      });
+
+      $.get("/user/data?days={{ days }}", function(data) {
+          data = data
+          var area = new Morris.Area({
+              element: 'revenue-chart',
+              resize: true,
+              data: data,
+              xkey: "y",
+              ykeys: ['retweets', 'tweets', 'favorites'],
+              labels: ['Retweets', 'Tweets', 'Favorites'],
+              lineColors: ['#a0d0e0', '#3c8dbc', '#ccc'],
+              hideHover: 'auto'
+          });
+        });
+
+      $("#sendURL").click(function() {
+          var url = $(".url-shortener").val();
+          $.post("/generate/url", {url:url,csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()}, function(data) {
+            $(".url-shortener").val("");
+            $("h1#code").html(data.url)
+          });
+      });
+    });
+</script>
+{% endblock %}
